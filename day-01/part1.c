@@ -49,14 +49,6 @@ void sort(int *vec, int len) {
   }
 }
 
-void printVec(int *vec, int len) {
-  for (int i = 0; i < len; ++i) {
-    printf("%d", vec[i]);
-    if (i < len - 1)
-      printf(" ");
-  }
-}
-
 int absDiff(int a, int b) { return abs(a - b); }
 
 void absDiffVec(int *vec1, int *vec2, int len, int *ans) {
@@ -76,7 +68,9 @@ int sumVec(int *vec, int len) {
 int sumAbsDiff(int *vec1, int *vec2, int len) {
   int* absDiffAns = malloc(sizeof(int) * len);
   absDiffVec(vec1, vec2, len, absDiffAns);
-  return sumVec(absDiffAns, len);
+  int sum = sumVec(absDiffAns, len);
+  free(absDiffAns);
+  return sum;
 }
 
 int main(int argc, char *argv[]) {
@@ -91,8 +85,14 @@ int main(int argc, char *argv[]) {
   int len;
 
   readInput(f, &len, &vec1, &vec2);
+  fclose(f);
+
   sort(vec1, len);
   sort(vec2, len);
+
   printf("%d\n", sumAbsDiff(vec1, vec2, len));
+
+  free(vec1);
+  free(vec2);
   return 0;
 }
